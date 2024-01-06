@@ -168,13 +168,114 @@
 		    </option>
 		</select>
   #endregion
-
 #endregion
 
 #region directives 
+	@Directive({
+	  selector: '[appLightbox]'
+	})
+	export class LightboxDirective {
+	  @Input() defaultColor:string='blue'
+	  @Input() hoverColor:string='green'
+	  constructor(private elRef: ElementRef) {
+	    this.elRef.nativeElement.style.border=`2px solid ${this.defaultColor}`
+	  }
+	  @HostListener('mouseover') onMouseOver(){
+	    this.elRef.nativeElement.style.border=`2px solid ${this.hoverColor}`
+	  }
+	  @HostListener('mouseout') onMouseOut(){
+	    this.elRef.nativeElement.style.border=`2px solid ${this.defaultColor}`
+	  }
+	}
 
+    <td class="p-4">
+        <img appLightbox [src]="prd.imgUrl" class="w-16 md:w-32 max-w-full max-h-full rounded-xl" alt="Apple Watch">
+    </td>
 #endregion
 
 #region pipes
+	@Pipe({
+	  name: 'usdToEgp'
+	})
+	export class UsdToEgpPipe implements PipeTransform {
 
+	  transform(value: number): number {
+	    return value*55;
+	  }
+
+	}
+
+    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+        {{prd.price |usdToEgp |currency :'EGP':'symbol'}}
+    </td>
+    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+        {{totalPrice |usdToEgp |currency :'EGP':'symbol'}}
+    </td>
+#endregion 
+
+#region life cycle
+	constructor
+	ngOnChanges
+	ngOnInit
+	ngDoCheck
+		ngAfterContentInit
+		ngAfterContentChecked
+
+		ngAfterViewInit
+		ngAfterViewChecked
+	ngOnDestroy
+#endregion
+
+#region interaction
+	#region without input output
+
+		<select name="cat" id="cat"
+			class=" grid justify-center my-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+			(change)="filterByCat()" [(ngModel)]="selectedCatId" >
+			<option *ngFor="let cat of catList" [value]="cat.id" #cat >
+				{{cat.name}}
+			</option>
+		</select>
+		<div>
+			<span class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">date : {{dateNow | date:'longDate'}}</span>
+		</div>
+
+		<ng-container *ngFor="let prd of prdListOfCat; let i=index">
+
+		catList!: ICategory[]
+		totalPrice!: number
+		selectedCatId!: number
+		filterByCat() {
+			this.prdListOfCat = this.prdList.filter(prd => prd.categoryId == this.selectedCatId)
+		}
+	#endregion
+
+	#region with input output
+		#region input parent master child list
+			((((((((((((((1))))))))))))))
+			selectedCatId!:number
+
+			<select name="cat" id="cat"
+				class=" grid justify-center my-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+				[(ngModel)]="selectedCatId">  //selectedCatId =>fill html parent
+				
+				<option *ngFor="let cat of catList" [value]="cat.id" #cat>
+					{{cat.name}}
+				</option>
+			</select>
+			((((((((((((((2))))))))))))))
+			@Input() sentCatId!:number // send catId Empty
+			((((((((((((((3)))))))))))))) html child inside parent html
+			<app-product-list [sentCatId]="selectedCatId"/>
+		#endregion
+
+		#region filter with input
+			  ngOnChanges(): void {
+				this.filterByCat()
+			}
+			  private filterByCat() {
+				this.prdListOfCat = this.prdList.filter(prd => prd.categoryId == this.sentCatId)
+			}
+		#endregion
+	#endregion
 #endregion

@@ -11,10 +11,11 @@ import { CartComponent } from './components/cart/cart.component';
 import { NgIconsModule } from '@ng-icons/core';
 import { bootstrapCart4, bootstrapInfoCircleFill, bootstrapList, bootstrapTrash3 } from '@ng-icons/bootstrap-icons';
 import { cssAdd } from '@ng-icons/css.gg';
-import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProductListComponent } from './components/order/product-list/product-list.component';
 import { FormsModule } from '@angular/forms';
 import { LightboxDirective } from './directives/lightbox.directive';
 import { UsdToEgpPipe } from './pipe/usd-to-egp.pipe';
+import { OrderMasterComponent } from './components/order/order-master/order-master.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { UsdToEgpPipe } from './pipe/usd-to-egp.pipe';
     CartComponent,
     ProductListComponent,
     LightboxDirective,
-    UsdToEgpPipe
+    UsdToEgpPipe,
+    OrderMasterComponent
   ],
   imports: [
     BrowserModule,
