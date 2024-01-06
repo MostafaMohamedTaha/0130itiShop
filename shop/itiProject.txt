@@ -1,0 +1,180 @@
+#region start
+	#region git
+		git init
+		git add .
+		git commit -m "Initial commit"
+		git remote add origin url--
+		git push -u origin master
+
+		git branch feature1
+		git checkout -b feature1
+		git push -u origin feature1
+
+		git checkout main
+		git merge feature1
+		git push origin main
+	#endregion
+
+	#region flowbite init
+		ng new my-app --no-standalone
+		npm install tailwindcss --save-dev
+		npx tailwindcss init
+
+		@tailwind base;
+		@tailwind components;
+		@tailwind utilities;
+
+		npm install flowbite
+
+		/** @type {import('tailwindcss').Config} */
+		module.exports = {
+		  content: [
+		    "./src/**/*.{html,ts}",
+		    "./node_modules/flowbite/**/*.js" // add this line
+		  ],
+		  theme: {
+		    extend: {},
+		  },
+		  plugins: [
+		    require('flowbite/plugin')
+		  ],
+		}
+
+		import { Component } from '@angular/core';
+		import { OnInit } from '@angular/core';
+		import { initFlowbite } from 'flowbite';
+
+		@Component({
+		  selector: 'app-root',
+		  templateUrl: './app.component.html',
+		  styleUrls: ['./app.component.css']
+		})
+		export class AppComponent implements OnInit {
+		  title = 'web-app';
+
+		  ngOnInit(): void {
+		    initFlowbite();
+		  }
+		}
+	#endregion
+
+	#region icons
+		npm i @ng-icons/bootstrap-icons @ng-icons/css.gg
+	    NgIconsModule.withIcons({ bootstrapCart4, bootstrapTrash3, bootstrapInfoCircleFill,bootstrapList,cssAdd}),
+		  ],
+		})
+
+        <button
+            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            (click)="buy(prd.price,itemCount.value)">
+            <ng-icon name="bootstrapCart4"></ng-icon>
+        </button>
+        <button
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-3">
+            <ng-icon name="bootstrapInfoCircleFill"></ng-icon>
+        </button>
+        <button
+            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+            <ng-icon name="bootstrapTrash3"></ng-icon>
+        </button>
+	#endregion
+
+	#region structure
+		components
+		ng g c home 
+		ng g c productList
+		ng g c cart
+		ng g c order
+
+		shared
+		ng g c header
+		ng g c footer
+		ng g c sidebar
+
+		view
+		ng g class data
+
+		models
+		ng g i iproduct
+
+		directive
+		ng g directive lightbox
+
+		pipe
+		ng g pipe usdToEgp
+
+		services
+		ng g s product
+	#endregion
+#endregion
+
+#region product cart
+	#region class static
+		ng g class data
+		export class CartData {
+		    constructor(
+		        public name:string,
+		        public imgUrl:string,
+		        public description:string,
+		        public rating:number,
+		        public price:number,
+		        public branches:string[]){
+		    }
+		}
+	  	cartDataDetail!:CartData
+			https: any;
+		  	constructor(){
+		    this.cartDataDetail=new CartData('pq','https://picsum.photos/2000/1100','d1',4,1000,['cairo','alex'])
+		  	}
+
+      	<a href="#">
+        <img class="rounded-t-lg" [src]="cartDataDetail.imgUrl" alt="product image" />
+    	</a>
+	#endregion
+#endregion
+
+#region productlist
+  prdList!:IProducts[]
+  catList!:ICategory[]
+  totalPrice!:number
+  selectedCatId:number=0
+  dateNow!:Date
+  constructor(){
+    this.prdList=[
+      {id:1,name:'p1',price:100,quantity:1,imgUrl:'https://picsum.photos/2000/1100',categoryId:1},
+      {id:2,name:'p2',price:110,quantity:2,imgUrl:'https://picsum.photos/2000/1200',categoryId:2},
+      {id:3,name:'p3',price:120,quantity:0,imgUrl:'https://picsum.photos/2000/1300',categoryId:3},
+      {id:4,name:'p4',price:130,quantity:4,imgUrl:'https://picsum.photos/2000/1400',categoryId:4},
+      {id:5,name:'p5',price:140,quantity:5,imgUrl:'https://picsum.photos/2000/1500',categoryId:5},
+      {id:6,name:'p6',price:150,quantity:6,imgUrl:'https://picsum.photos/2000/1600',categoryId:6},
+    ]
+    this.catList=[
+      {id:1,name:'c1'},
+      {id:2,name:'c2'},
+      {id:3,name:'c3'},
+      {id:4,name:'c4'},
+    ]
+    this.dateNow=new Date()
+  }
+  buy(prdPrice:number,count:any){
+     this.totalPrice=+count*prdPrice
+  }
+
+  #region cat
+	  <select name="cat" id="cat"
+	    class=" grid justify-center my-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+		    <option *ngFor="let cat of catList" [value]="cat.id" #cat [(ngModel)]="selectedCatId">
+		        {{cat.name}}
+		    </option>
+		</select>
+  #endregion
+
+#endregion
+
+#region directives 
+
+#endregion
+
+#region pipes
+
+#endregion
